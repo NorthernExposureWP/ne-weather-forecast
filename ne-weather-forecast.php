@@ -10,6 +10,9 @@
 defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/src/Admin/SettingsPage.php';
+require_once __DIR__ . '/src/Service/WeatherService.php';
+require_once __DIR__ . '/src/Api/GeoIpClient.php';
+require_once __DIR__ . '/src/Api/WeatherClient.php';
 
 $settings_page = new \NE\Weather\Admin\SettingsPage();
 $settings_page->register();
