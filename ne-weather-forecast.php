@@ -42,3 +42,21 @@ register_activation_hook(
         }
     }
 );
+
+
+
+//
+//$weatherService = new \NE\Weather\Service\WeatherService(
+//    new \NE\Weather\Api\GeoIpClient(),
+//    new \NE\Weather\Api\WeatherClient()
+//);
+//
+//try {
+//    echo '<pre>';
+//    print_r($weatherService->getWeatherForVisitor());
+//    echo '</pre>';
+//} catch (\Throwable $e) {
+//    echo '<pre>';
+//    print_r($e->getMessage());
+//    echo '</pre>';
+//}

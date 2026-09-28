@@ -59,7 +59,14 @@ final class SettingsPage
 
         register_setting(
                 'ne_weather_settings',
-                'ne_weather_cache_ttl'
+                'ne_weather_cache_ttl',
+                [
+                        'type' => 'integer',
+                        'sanitize_callback' => function (int $value): int {
+                            return min(1800, max(300, $value));
+                        },
+                        'default' => 900,
+                ]
         );
 
         add_settings_section(
@@ -141,7 +148,8 @@ final class SettingsPage
                 type="number"
                 name="ne_weather_cache_ttl"
                 value="<?= esc_attr($value) ?>"
-                min="60"
+                min="300"
+                max="1800"
                 step="60"
                 class="small-text"
         >

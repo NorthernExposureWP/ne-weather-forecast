@@ -87,6 +87,8 @@ final class WeatherClient
         $current = $data['current'];
 
         return [
+            'latitude' => (float) $data['latitude'],
+            'longitude' => (float) $data['longitude'],
             'time' => $current['time'],
             'temperature' => (float) $current['temperature_2m'],
             'humidity' => (int) $current['relative_humidity_2m'],
