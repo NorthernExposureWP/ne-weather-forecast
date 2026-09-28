@@ -2,6 +2,8 @@
 
 namespace NE\Weather\Api;
 
+use NE\Weather\Domain\WeatherCondition;
+
 final class WeatherClient
 {
     private const API_URL = 'https://api.open-meteo.com/v1/forecast';
@@ -93,9 +95,39 @@ final class WeatherClient
             'temperature' => (float) $current['temperature_2m'],
             'humidity' => (int) $current['relative_humidity_2m'],
             'apparent_temperature' => (float) $current['apparent_temperature'],
-            'weather_code' => (int) $current['weather_code'],
+            'condition' => $this->mapWeatherCode(
+                (int) $current['weather_code']
+            ),
             'wind_speed' => (float) $current['wind_speed_10m'],
             'is_day' => (bool) $current['is_day'],
         ];
+    }
+
+    private function mapWeatherCode(int $code): WeatherCondition
+    {
+        return match ($code) {
+            0 => WeatherCondition::CLEAR,
+            1 => WeatherCondition::MAINLY_CLEAR,
+            2 => WeatherCondition::PARTLY_CLOUDY,
+            3 => WeatherCondition::OVERCAST,
+
+            45, 48 => WeatherCondition::FOG,
+
+            51, 53, 55, 56, 57 => WeatherCondition::DRIZZLE,
+
+            61, 63, 65, 66, 67 => WeatherCondition::RAIN,
+
+            71, 73, 75, 77 => WeatherCondition::SNOW,
+
+            80, 81, 82 => WeatherCondition::RAIN_SHOWERS,
+
+            85, 86 => WeatherCondition::SNOW_SHOWERS,
+
+            95, 96, 97, 99 => WeatherCondition::THUNDERSTORM,
+
+            default => throw new \RuntimeException(
+                sprintf('Unknown weather code: %d', $code)
+            ),
+        };
     }
 }

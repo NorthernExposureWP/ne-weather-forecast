@@ -7,15 +7,35 @@
  * Author: Northern Exposure
  */
 
+use NE\Weather\Admin\SettingsPage;
+use NE\Weather\Api\GeoIpClient;
+use NE\Weather\Api\WeatherClient;
+use NE\Weather\Frontend\WeatherShortcode;
+use NE\Weather\Service\WeatherService;
+
 defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/src/Admin/SettingsPage.php';
 require_once __DIR__ . '/src/Service/WeatherService.php';
 require_once __DIR__ . '/src/Api/GeoIpClient.php';
 require_once __DIR__ . '/src/Api/WeatherClient.php';
+require_once __DIR__ . '/src/Frontend/WeatherShortcode.php';
+require_once __DIR__ . '/src/Domain/WeatherCondition.php';
 
-$settings_page = new \NE\Weather\Admin\SettingsPage();
+
+$settings_page = new SettingsPage();
+$geoIpClient = new GeoIpClient();
+$weatherClient = new WeatherClient();
+$weatherService = new WeatherService(
+    $geoIpClient,
+    $weatherClient
+);
+$shortcode = new WeatherShortcode(
+    $weatherService
+);
 $settings_page->register();
+$shortcode->register();
+
 
 register_activation_hook(
     __FILE__,
@@ -42,21 +62,3 @@ register_activation_hook(
         }
     }
 );
-
-
-
-//
-//$weatherService = new \NE\Weather\Service\WeatherService(
-//    new \NE\Weather\Api\GeoIpClient(),
-//    new \NE\Weather\Api\WeatherClient()
-//);
-//
-//try {
-//    echo '<pre>';
-//    print_r($weatherService->getWeatherForVisitor());
-//    echo '</pre>';
-//} catch (\Throwable $e) {
-//    echo '<pre>';
-//    print_r($e->getMessage());
-//    echo '</pre>';
-//}
