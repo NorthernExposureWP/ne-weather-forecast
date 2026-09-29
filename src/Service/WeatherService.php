@@ -43,13 +43,40 @@ final class WeatherService
         $cachedWeather = get_transient($cacheKey);
 
         if ($cachedWeather !== false) {
+            error_log(
+                sprintf(
+                    'NE Weather: Cache hit. Coordinates: %.2f, %.2f',
+                    $location['latitude'],
+                    $location['longitude']
+                )
+            );
+
             return $cachedWeather;
         }
 
-        $weather = $this->weatherClient->getCurrentWeather(
-            $location['latitude'],
-            $location['longitude']
-        );
+        try {
+            $weather = $this->weatherClient->getCurrentWeather(
+                $location['latitude'],
+                $location['longitude']
+            );
+
+            error_log(
+                sprintf(
+                    'NE Weather: Weather retrieved successfully. Coordinates: %.2f, %.2f',
+                    $location['latitude'],
+                    $location['longitude']
+                )
+            );
+        } catch (\Throwable $e) {
+            error_log(
+                sprintf(
+                    'NE Weather: Failed to retrieve weather: %s',
+                    $e->getMessage()
+                )
+            );
+
+            throw $e;
+        }
 
         set_transient(
             $cacheKey,

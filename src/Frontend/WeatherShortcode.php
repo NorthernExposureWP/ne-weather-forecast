@@ -18,7 +18,14 @@ final readonly class WeatherShortcode
 
     public function render(): string
     {
-        $weather = $this->weatherService->getWeatherForVisitor();
+        try {
+            $weather = $this->weatherService->getWeatherForVisitor();
+        } catch (\Throwable) {
+            return '<div class="ne-weather ne-weather--error">
+            Weather is temporarily unavailable.
+        </div>';
+        }
+
         $condition = $weather['condition'];
         $updatedAt = new \DateTimeImmutable($weather['time']);
 
