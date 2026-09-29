@@ -11,6 +11,7 @@ use NE\Weather\Admin\SettingsPage;
 use NE\Weather\Api\GeoIpClient;
 use NE\Weather\Api\WeatherClient;
 use NE\Weather\Frontend\WeatherShortcode;
+use NE\Weather\Frontend\WebhookController;
 use NE\Weather\Service\WeatherService;
 
 defined('ABSPATH') || exit;
@@ -23,6 +24,7 @@ require_once __DIR__ . '/src/Api/GeoIpClient.php';
 require_once __DIR__ . '/src/Api/WeatherClient.php';
 require_once __DIR__ . '/src/Frontend/WeatherShortcode.php';
 require_once __DIR__ . '/src/Domain/WeatherCondition.php';
+require_once __DIR__ . '/src/Frontend/WebhookController.php';
 
 
 $settings_page = new SettingsPage();
@@ -37,6 +39,7 @@ $shortcode = new WeatherShortcode(
 );
 $settings_page->register();
 $shortcode->register();
+WebhookController::init();
 
 register_activation_hook(
     __FILE__,
