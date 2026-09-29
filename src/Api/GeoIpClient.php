@@ -2,7 +2,7 @@
 
 namespace NE\Weather\Api;
 
-final class GeoIpClient
+final class GeoIpClient implements GeoIpClientInterface
 {
     private const API_URL = 'https://ipapi.co';
 

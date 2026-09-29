@@ -2,14 +2,14 @@
 
 namespace NE\Weather\Service;
 
-use NE\Weather\Api\GeoIpClient;
-use NE\Weather\Api\WeatherClient;
+use NE\Weather\Api\WeatherClientInterface;
+use NE\Weather\Api\GeoIpClientInterface;
 
-final class WeatherService
+final readonly class WeatherService
 {
     public function __construct(
-        private GeoIpClient $geoIpClient,
-        private WeatherClient $weatherClient,
+        private GeoIpClientInterface $geoIpClient,
+        private WeatherClientInterface $weatherClient,
     ) {
     }
 

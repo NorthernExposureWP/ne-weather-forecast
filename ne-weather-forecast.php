@@ -16,6 +16,8 @@ use NE\Weather\Service\WeatherService;
 defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/src/Admin/SettingsPage.php';
+require_once __DIR__ . '/src/Api/WeatherClientInterface.php';
+require_once __DIR__ . '/src/Api/GeoIpClientInterface.php';
 require_once __DIR__ . '/src/Service/WeatherService.php';
 require_once __DIR__ . '/src/Api/GeoIpClient.php';
 require_once __DIR__ . '/src/Api/WeatherClient.php';
@@ -35,7 +37,6 @@ $shortcode = new WeatherShortcode(
 );
 $settings_page->register();
 $shortcode->register();
-
 
 register_activation_hook(
     __FILE__,

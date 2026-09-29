@@ -4,7 +4,7 @@ namespace NE\Weather\Api;
 
 use NE\Weather\Domain\WeatherCondition;
 
-final class WeatherClient
+final class WeatherClient implements WeatherClientInterface
 {
     private const API_URL = 'https://api.open-meteo.com/v1/forecast';
 
